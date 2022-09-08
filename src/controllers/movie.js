@@ -9,13 +9,13 @@ const getUserMovies = (req, res, next) =>
     .catch(next);
 
 const createMovie = (req, res, next) =>
-  Movie.create({ ...req.body, owner: req.user._id, movieId: req.body.id })
+  Movie.create({ ...req.body, owner: req.user._id })
     .then((movie) => movie.populate('owner'))
     .then((movie) => res.status(HTTP_CREATED).send(movie))
     .catch((err) => handleMovieError(err, next));
 
 const deleteMovie = (req, res, next) =>
-  Movie.findById(req.params.movieId)
+  Movie.findById(req.params._id)
     .orFail()
     .populate('owner')
     .then((movie) => {

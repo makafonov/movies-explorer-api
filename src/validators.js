@@ -1,6 +1,5 @@
 const { isURL } = require('validator');
-const { Joi } = require('celebrate');
-const { celebrate } = require('celebrate');
+const { celebrate, Joi } = require('celebrate');
 
 const validateUrl = (value) => {
   if (!isURL(value, { require_protocol: true })) {
@@ -41,7 +40,7 @@ const movieCreateValidator = celebrate({
     image: Joi.string().required().custom(validateUrl),
     trailerLink: Joi.string().required().custom(validateUrl),
     thumbnail: Joi.string().required().custom(validateUrl),
-    id: Joi.number().required(),
+    movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
   }),
@@ -49,7 +48,7 @@ const movieCreateValidator = celebrate({
 
 const movieDeleteValidator = celebrate({
   params: Joi.object().keys({
-    movieId: Joi.string().alphanum().length(24),
+    _id: Joi.string().alphanum().length(24).required(),
   }),
 });
 
