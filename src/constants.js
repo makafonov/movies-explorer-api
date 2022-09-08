@@ -7,6 +7,8 @@ const HTTP_NOT_FOUND = 404;
 const HTTP_CONFLICT = 409;
 const HTTP_SERVER_ERROR = 500;
 
+const DUPLICATE_KEY_ERROR = 11000;
+
 module.exports = {
   HTTP_OK,
   HTTP_CREATED,
@@ -16,4 +18,5 @@ module.exports = {
   HTTP_NOT_FOUND,
   HTTP_CONFLICT,
   HTTP_SERVER_ERROR,
+  DUPLICATE_KEY_ERROR,
 };

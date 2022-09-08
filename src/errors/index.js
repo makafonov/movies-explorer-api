@@ -1,3 +1,5 @@
+const { HTTP_SERVER_ERROR, DUPLICATE_KEY_ERROR } = require('../constants');
+
 const UnauthorizedError = require('./unauthorized-err');
 const ConflictError = require('./conflict-err');
 const NotFoundError = require('./not-found-err');
@@ -5,17 +7,17 @@ const BadRequestError = require('./bad-request-err');
 const ForbiddenError = require('./forbidden-err');
 
 const handleError = (err, req, res, next) => {
-  const { statusCode = 500, message } = err;
+  const { statusCode = HTTP_SERVER_ERROR, message } = err;
 
   res.status(statusCode).send({
-    message: statusCode === 500 ? 'На сервере произошла ошибка' : message,
+    message: statusCode === HTTP_SERVER_ERROR ? 'На сервере произошла ошибка' : message,
   });
 
   next();
 };
 
 const handleUserError = (err, next) => {
-  if (err.name === 'MongoServerError' && err.code === 11000) {
+  if (err.name === 'MongoServerError' && err.code === DUPLICATE_KEY_ERROR) {
     next(new ConflictError('Пользователь с указанным email уже существует'));
   } else if (err.name === 'DocumentNotFoundError') {
     next(new NotFoundError('Пользователь не найден'));
